@@ -1,0 +1,57 @@
+login: деградация наступает на 450 юзерах
+{ duration: '30s', target: 450 }, // simulate ramp-up of traffic from 1 to 100 users over 5 minutes.
+    { duration: '1m', target: 450 }, // stay at 100 users for 10 minutes
+    { duration: '30s', target: 0 }, // ramp-down to 0 users
+
+Появляется ошибка ERRO[0120] cannot parse json due to an error at line 1, character 2 , error: invalid character 'S' looking for beginning of value
+running at reflect.methodValueCall (native)
+default at user exist (file:///home/pavel/projects/perfomance-tests/login.js:38:25(3))
+        at go.k6.io/k6/js/modules/k6.(*K6).Check-fm (native)
+        at file:///home/pavel/projects/perfomance-tests/login.js:36:14(16)
+        at native  executor=ramping-vus scenario=default source=stacktrace
+
+ ✗ res0 status is 200
+↳  1% — ✓ 8265 / ✗ 460901
+✗ user exist
+↳  1% — ✓ 8265 / ✗ 460901
+✗ res status is 200
+↳  85% — ✓ 7086 / ✗ 1179
+✗ is correct user
+↳  85% — ✓ 7086 / ✗ 1179
+
+catalog деградация наступает на 300 юзерах
+export const options = {
+  stages: [
+    { duration: '30s', target: 300 }, // simulate ramp-up of traffic from 1 to 100 users over 5 minutes.
+    { duration: '1m', target: 300 }, // stay at 100 users for 10 minutes
+    { duration: '30s', target: 0 }, // ramp-down to 0 users
+  ],
+  thresholds: {
+    'http_req_duration': ['p(99)<1500'], // 99% of requests must complete below 1.5s
+  },
+};
+
+Появляется ошибка ERRO[0143] the body is null so we can't transform it to JSON - this likely was because of a request error getting the response
+running at reflect.methodValueCall (native)
+default at get all filters for apple (file:///home/pavel/projects/perfomance-tests/catalog.js:40:40(3))
+        at go.k6.io/k6/js/modules/k6.(*K6).Check-fm (native)
+        at file:///home/pavel/projects/perfomance-tests/catalog.js:38:14(61)
+        at native  executor=ramping-vus scenario=default source=stacktrace
+
+ 
+✗ res3 with status is 200
+↳  93% — ✓ 1371 / ✗ 90
+✗ get all filters for apple
+↳  93% — ✓ 1371 / ✗ 90
+✗ res4 status is 200
+↳  96% — ✓ 1322 / ✗ 41
+✗ get correct products data for apple
+↳  96% — ✓ 1322 / ✗ 41
+
+search сильно замедляется при 500 юзерах, среднее время ответа 3,3 секунды
+
+menu начинает тупить на нагрузке 
+{ duration: '30s', target: 400 }, // simulate ramp-up of traffic from 1 to 100 users over 5 minutes.
+    { duration: '1m', target: 400 }, // stay at 100 users for 10 minutes
+    { duration: '30s', target: 0 } - 4% отказа
+
