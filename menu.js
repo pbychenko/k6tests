@@ -1,15 +1,16 @@
 import http from 'k6/http';
-import { check, sleep } from 'k6';
-import exec from 'k6/execution';
+import { check } from 'k6';
 
 
-const url1 = 'https://stapi.technodom.kz/menu/api/v1/menu/top?city_id=5f5f1e3b4c8a49e692fefd70';
-const url2 = 'https://stapi.technodom.kz/menu/api/v1/menu/footer?city_id=5f5f1e3b4c8a49e692fefd70';
+// const url1 = 'https://stapi.technodom.kz/menu/api/v1/menu/top?city_id=5f5f1e3b4c8a49e692fefd70';
+const url1 = 'https://api.technodom.kz/menu/api/v1/menu/top?city_id=5f5f1e3b4c8a49e692fefd70'
+// const url2 = 'https://stapi.technodom.kz/menu/api/v1/menu/footer?city_id=5f5f1e3b4c8a49e692fefd70';
+const url2 = 'https://api.technodom.kz/menu/api/v1/menu/footer?city_id=5f5f1e3b4c8a49e692fefd70';
 
 export const options = {
   stages: [
-    { duration: '30s', target: 400 }, // simulate ramp-up of traffic from 1 to 100 users over 5 minutes.
-    { duration: '1m', target: 400 }, // stay at 100 users for 10 minutes
+    { duration: '30s', target: 300 }, // simulate ramp-up of traffic from 1 to 100 users over 5 minutes.
+    { duration: '1m', target: 300 }, // stay at 100 users for 10 minutes
     { duration: '30s', target: 0 }, // ramp-down to 0 users
   ],
   thresholds: {
@@ -17,10 +18,8 @@ export const options = {
   },
 };
 
-
 export default () => {
-  let res1 = http.get(url1);
-  // console.log(res1.body)
+  const res1 = http.get(url1);
 
   check(res1, {
     'res1 status is 200': (r) => r.status === 200,
@@ -29,7 +28,7 @@ export default () => {
   });
    
 
-  let res2 = http.get(url2);
+  const res2 = http.get(url2);
 
   check(res2, {
     'res2 status is 200': (r) => r.status === 200,

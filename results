@@ -1,23 +1,30 @@
-login: деградация наступает на 450 юзерах
-{ duration: '30s', target: 450 }, // simulate ramp-up of traffic from 1 to 100 users over 5 minutes.
-    { duration: '1m', target: 450 }, // stay at 100 users for 10 minutes
-    { duration: '30s', target: 0 }, // ramp-down to 0 users
+login: результаты для 500 юзеров
+✗ checkUserReq status is 200
+↳  32% — ✓ 11756 / ✗ 24200
+✗ signInReq status is 200
+↳  31% — ✓ 11310 / ✗ 24646
 
-Появляется ошибка ERRO[0120] cannot parse json due to an error at line 1, character 2 , error: invalid character 'S' looking for beginning of value
-running at reflect.methodValueCall (native)
-default at user exist (file:///home/pavel/projects/perfomance-tests/login.js:38:25(3))
-        at go.k6.io/k6/js/modules/k6.(*K6).Check-fm (native)
-        at file:///home/pavel/projects/perfomance-tests/login.js:36:14(16)
-        at native  executor=ramping-vus scenario=default source=stacktrace
+checks.........................: 32.07% ✓ 23066      ✗ 48846
+data_received..................: 22 MB  181 kB/s
+data_sent......................: 5.7 MB 47 kB/s
+http_req_blocked...............: avg=1.12ms   min=111ns   med=1.05µs   max=198.49ms p(90)=1.47µs   p(95)=1.57µs  
+http_req_connecting............: avg=541.69µs min=0s      med=0s       max=114.39ms p(90)=0s       p(95)=0s      
+✓ http_req_duration..............: avg=128.79ms min=80.16ms med=91.41ms  max=4.4s     p(90)=164.76ms p(95)=181.03ms
+ { expected_response:true }...: avg=172.04ms min=82.15ms med=153.49ms max=4.3s     p(90)=187.86ms p(95)=356.53ms
+http_req_failed................: 67.92% ✓ 48846      ✗ 23066
+http_req_receiving.............: avg=92.53µs  min=10.83µs med=82.31µs  max=22.04ms  p(90)=110.9µs  p(95)=127.98µs
+http_req_sending...............: avg=130.55µs min=16.12µs med=129.02µs max=7.7ms    p(90)=181.75µs p(95)=199.92µs
+http_req_tls_handshaking.......: avg=582.13µs min=0s      med=0s       max=115.79ms p(90)=0s       p(95)=0s      
+http_req_waiting...............: avg=128.56ms min=79.95ms med=91.2ms   max=4.4s     p(90)=164.5ms  p(95)=180.78ms
+http_reqs......................: 71912  595.646188/s
+iteration_duration.............: avg=1.26s    min=1.16s   med=1.18s    max=5.5s     p(90)=1.28s    p(95)=1.45s   
+iterations.....................: 35956  297.823094/s
+vus............................: 17     min=16       max=500
+vus_max........................: 500    min=500      max=500
 
- ✗ res0 status is 200
-↳  1% — ✓ 8265 / ✗ 460901
-✗ user exist
-↳  1% — ✓ 8265 / ✗ 460901
-✗ res status is 200
-↳  85% — ✓ 7086 / ✗ 1179
-✗ is correct user
-↳  85% — ✓ 7086 / ✗ 1179
+Если не авторизоваться(только 1-ый запрос), то выдерживает 750
+
+
 
 catalog деградация наступает на 300 юзерах
 export const options = {
@@ -50,8 +57,31 @@ default at get all filters for apple (file:///home/pavel/projects/perfomance-tes
 
 search сильно замедляется при 500 юзерах, среднее время ответа 3,3 секунды
 
-menu начинает тупить на нагрузке 
-{ duration: '30s', target: 400 }, // simulate ramp-up of traffic from 1 to 100 users over 5 minutes.
-    { duration: '1m', target: 400 }, // stay at 100 users for 10 minutes
-    { duration: '30s', target: 0 } - 4% отказа
+menu не выдерживает 400 юзеров
+✗ res1 status is 200
+  ↳  9% — ✓ 21215 / ✗ 197920
+  ✗ get all top data
+  ↳  9% — ✓ 21215 / ✗ 197920
+  ✗ res2 status is 200
+  ↳  9% — ✓ 21179 / ✗ 197956
+  ✗ get all bottom data
+  ↳  9% — ✓ 21179 / ✗ 197956
+
+  checks.........................: 9.67%  ✓ 84788       ✗ 791752
+  data_received..................: 318 MB 2.6 MB/s
+  data_sent......................: 17 MB  141 kB/s
+  http_req_blocked...............: avg=96.59µs  min=146ns   med=1.19µs   max=3.05s    p(90)=1.49µs   p(95)=1.57µs  
+  http_req_connecting............: avg=66.87µs  min=0s      med=0s       max=3.03s    p(90)=0s       p(95)=0s      
+✓ http_req_duration..............: avg=81.88ms  min=6.52ms  med=47.26ms  max=4.38s    p(90)=148.7ms  p(95)=221.13ms
+    { expected_response:true }...: avg=276.47ms min=9.29ms  med=62.53ms  max=4.38s    p(90)=866.36ms p(95)=1.27s   
+  http_req_failed................: 90.32% ✓ 395876      ✗ 42394 
+  http_req_receiving.............: avg=1.46ms   min=11.94µs med=77.33µs  max=1.79s    p(90)=402.84µs p(95)=2.64ms  
+  http_req_sending...............: avg=126.1µs  min=13.06µs med=111.99µs max=59.99ms  p(90)=155.03µs p(95)=198.66µs
+  http_req_tls_handshaking.......: avg=28.07µs  min=0s      med=0s       max=525.69ms p(90)=0s       p(95)=0s      
+  http_req_waiting...............: avg=80.29ms  min=6.33ms  med=46.52ms  max=4.38s    p(90)=145.74ms p(95)=210.28ms
+  http_reqs......................: 438270 3651.708743/s
+  iteration_duration.............: avg=164.56ms min=16.16ms med=109.76ms max=4.78s    p(90)=245.21ms p(95)=362.86ms
+  iterations.....................: 219135 1825.854372/s
+  vus............................: 1      min=1         max=400 
+  vus_max........................: 400    min=400       max=400 
 
