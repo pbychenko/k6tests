@@ -9,8 +9,8 @@ const url2 = 'https://api.technodom.kz/menu/api/v1/menu/footer?city_id=5f5f1e3b4
 
 export const options = {
   stages: [
-    { duration: '30s', target: 300 },
-    { duration: '1m', target: 300 },
+    { duration: '30s', target: 1000 },
+    { duration: '1m', target: 1000 },
     { duration: '30s', target: 0 },
   ],
   thresholds: {
@@ -23,7 +23,7 @@ export default () => {
 
   check(res1, {
     'res1 status is 200': (r) => r.status === 200,
-    'get all top data': (r) => r.body.includes('items'),
+    // 'get all top data': (r) => r.body.includes('items'),
   });
    
 
@@ -31,6 +31,6 @@ export default () => {
 
   check(res2, {
     'res2 status is 200': (r) => r.status === 200,
-    'get all bottom data': (r) => r.body.includes('items'),
+    // 'get all bottom data': (r) => r.body.includes('items'),
   });
 }
